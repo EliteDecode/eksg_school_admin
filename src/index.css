@@ -1,0 +1,237 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+    padding: 0%;
+    margin: 0%;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* @layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 406.4, 45.74%, 46.47%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+} */
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+    --primary: 406.4, 45.74%, 46.47%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 71.4% 4.1%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 210 20% 98%;
+    --primary-foreground: 220.9 39.3% 11%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 216 12.2% 83.9%;
+  }
+}
+
+.container-c {
+  width: 85%;
+  margin: auto;
+}
+
+@media (min-width: 0px) and (max-width: 767px) {
+  .container-c {
+    width: 95% !important;
+  }
+
+  .loginBg {
+    background: url("./assets//images/bg.jpg");
+    background-size: cover;
+    background-position: -320px -70px;
+    background-color: rgba(0, 0, 0, 0.3);
+    background-blend-mode: overlay;
+  }
+}
+
+.hr-lines {
+  position: relative;
+  max-width: 500px;
+  margin: 0px 100px;
+  text-align: center;
+  background-color: #fff;
+  z-index: 100;
+}
+.hr-lines:before {
+  content: " ";
+  height: 2px;
+  width: 100px;
+  background: #d6d6d6;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: -120px;
+}
+
+.hr-lines:after {
+  content: " ";
+  height: 2px;
+  width: 100px;
+  background: #d6d6d6;
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: -120px;
+}
+
+.showSidebar {
+  left: 0px !important;
+}
+
+.transit {
+  transition: all 0.8s ease;
+}
+.header {
+  width: 84%;
+}
+
+.sidebar {
+  width: 16%;
+  position: relative;
+}
+
+@media screen and (max-width: 767px) {
+  .sidebar {
+    left: -10000000px;
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .header {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 830px) {
+  .sidebar {
+    width: 30%;
+  }
+
+  .header {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 831px) and (max-width: 1245px) {
+  .sidebar {
+    width: 25%;
+  }
+
+  .header {
+    width: 75%;
+  }
+}
+.ant-table-cell {
+  font-size: 12px;
+}
+
+/* Width and height of the scrollbar */
+
+.sidebarx::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+.sidebarx::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track color */
+}
+
+.sidebarx::-webkit-scrollbar-thumb {
+  background: #c4b5ce28; /* Thumb color */
+}
+
+.sidebarx::-webkit-scrollbar-thumb:hover {
+  background: #c4b5ce62; /* Thumb color on hover */
+}
+
+.logbg {
+  background: url("./assets/images/bg.jpg");
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0);
+  background-blend-mode: overlay;
+}
