@@ -215,10 +215,11 @@ const EditStudentForm = ({ localStudent }) => {
           if (response) {
             setLoading(false);
             dispatch(
-              registerStudent({
+              updateSingleStudent({
                 ...values,
-                passport: values.passportLocal,
+                passport: response?.data?.url,
                 exam_type_id: user?.exam_type_id,
+                studentId: studentId,
               })
             );
           }
@@ -450,6 +451,7 @@ const EditStudentForm = ({ localStudent }) => {
                       onValueChange={(value) =>
                         formik.setFieldValue("gender", value)
                       }
+                      values={formik.values.gender}
                       className="text-[12px]">
                       <SelectTrigger className="w-[100%] text-xs">
                         <SelectValue placeholder="Select" />

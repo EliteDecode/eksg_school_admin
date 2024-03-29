@@ -187,11 +187,7 @@ const RegisterStudentForm = () => {
               exam_type_id: user?.exam_type_id,
             })
           );
-          console.log({
-            ...values,
-            passport: response?.data?.url,
-            exam_type_id: user?.exam_type_id,
-          });
+
           setLoading(false);
         }
       } else {
@@ -417,6 +413,13 @@ const RegisterStudentForm = () => {
                         </SelectGroup>
                       </SelectContent>
                     </Select>
+                    {formik.touched.gender && formik.errors.gender ? (
+                      <span
+                        className="text-[10px] text-red-500 -mt-2 leading-none"
+                        style={{ fontSize: "10px" }}>
+                        (*) {formik.errors.gender}
+                      </span>
+                    ) : null}
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
                     <Label className="text-[11px]" htmlFor="lga">

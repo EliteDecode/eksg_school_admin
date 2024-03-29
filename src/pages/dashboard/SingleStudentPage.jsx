@@ -232,9 +232,7 @@ const SingleStudentPage = () => {
                 state: { data: "jjjjj" },
               }}>
             </Link> */}
-                <Button onClick={handleedit}>
-                  Edit Student Info {localStudent?.placed_school_id}
-                </Button>
+                <Button onClick={handleedit}>Edit Student Info</Button>
 
                 <Dialog>
                   <DialogTrigger asChild>

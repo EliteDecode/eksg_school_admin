@@ -23,6 +23,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { useSyncGlobalContext } from "./lib/Context";
 import Broadsheet from "./pages/broadsheet/Broadsheet";
+import SubjectAnalysis from "./pages/subject-analysis/SubjectAnalysis";
 
 // routes
 
@@ -60,6 +61,11 @@ export default function App() {
         {
           path: "edit-student/:studentId",
           element: <EditStudents />,
+        },
+
+        {
+          path: "subject-analysis",
+          element: <SubjectAnalysis />,
         },
 
         {

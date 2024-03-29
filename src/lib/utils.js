@@ -62,6 +62,11 @@ export const sidebar = [
       //   link: "subjects",
       // },
       {
+        Title: "Subject Analysis",
+        Icon: gradeSystemImg,
+        link: "subject-analysis",
+      },
+      {
         Title: "Broadsheet",
         Icon: classesImg,
         link: "/broadsheet",
