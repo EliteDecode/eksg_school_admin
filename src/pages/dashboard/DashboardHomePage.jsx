@@ -34,14 +34,14 @@ const DashboardHomePage = () => {
   const { user } = useSelector((state) => state.schoolAuth);
 
   const HomeCardContentsStudents = [
-    {
-      title: "Total Students (Primary)",
-      description: students?.data?.CE?.total,
-      image: studentsImg,
-      buttonText: "View Students",
-      link: "students",
-      cat: "1",
-    },
+    // {
+    //   title: "Total Students (Primary)",
+    //   description: students?.data?.CE?.total,
+    //   image: studentsImg,
+    //   buttonText: "View Students",
+    //   link: "students",
+    //   cat: "1",
+    // },
     {
       title: "Total Students (JSS3)",
       description: students?.data?.JSS3?.total,
@@ -50,13 +50,21 @@ const DashboardHomePage = () => {
       link: "students",
       cat: "2",
     },
+    // {
+    //   title: "Total Students (SS3)",
+    //   description: students?.data?.SS2?.total,
+    //   image: studentsImg,
+    //   buttonText: "View Students",
+    //   link: "students",
+    //   cat: "3",
+    // },
     {
-      title: "Total Students (SS3)",
-      description: students?.data?.SS2?.total,
+      title: "Operation Manual",
+      description: "A guide to software usage",
       image: studentsImg,
-      buttonText: "View Students",
-      link: "students",
-      cat: "3",
+      buttonText: "View Manual",
+      link: "",
+      cat: "2",
     },
   ];
 

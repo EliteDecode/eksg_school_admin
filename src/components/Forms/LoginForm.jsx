@@ -114,9 +114,9 @@ const LoginForm = () => {
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Exam Type</SelectLabel>
-                    <SelectItem value="1">Common Entrance</SelectItem>
+                    {/* <SelectItem value="1">Common Entrance</SelectItem> */}
                     <SelectItem value="2">JSS3</SelectItem>
-                    <SelectItem value="3">SS2</SelectItem>
+                    {/* <SelectItem value="3">SS2</SelectItem> */}
                   </SelectGroup>
                 </SelectContent>
               </Select>
