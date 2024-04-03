@@ -46,10 +46,10 @@ export const registerStudentSchema = yup.object({
   ca_scores: yup
     .array()
     .min(
-      school?.user?.exam_type_id == 1 ? 5 : 5,
+      school?.user?.exam_type_id == 1 ? 5 : 9,
       `Please select at least ${
         school?.user?.exam_type_id == 1 ? "5" : "9"
-      } subjects with min value of 30 and max value of 100.`
+      } subjects with min value of 0 and max value of 30.`
     )
     .required("Test scores are required"),
 });
@@ -125,4 +125,15 @@ export const editAdminSchema = yup.object({
       otherwise: (schema) => schema.notRequired(),
     }),
   status: yup.string().trim(),
+});
+
+export const updateEditStudentSchema = yup.object({
+  ca_scores: yup
+    .array()
+    .min(
+      9,
+      `Please select at least 9 subjects with min value of 0 and max value of 30.`
+    )
+    .required("Test scores are required"),
+  passportLocal: yup.string().required("Passport is required"),
 });

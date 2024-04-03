@@ -4,11 +4,13 @@ import studentService from "./studentService";
 const students = JSON.parse(localStorage.getItem("students"));
 const eksg_subjects = JSON.parse(localStorage.getItem("eksg_subjects"));
 const broadsheet = JSON.parse(localStorage.getItem("school_broadsheet"));
+const analysis = JSON.parse(localStorage.getItem("school_analysis"));
 
 const initialState = {
   students: students ? students : null,
   subjects: eksg_subjects ? eksg_subjects : [],
   broadsheet: broadsheet ? broadsheet : [],
+  analysis: analysis ? analysis : [],
   singleStudent: null,
   isError: false,
   isSuccess: false,
@@ -26,6 +28,25 @@ export const getAllStudents = createAsyncThunk(
     try {
       const token = thunkAPI.getState().schoolAuth.user.token;
       const data = await studentService.getAllStudents(token);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getSubjectAnalysis = createAsyncThunk(
+  "students/getSubjectAnalysis",
+  async (schoolId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().schoolAuth.user.token;
+      const data = await studentService.getSubjectAnalysis(token, schoolId);
       return data;
     } catch (error) {
       const message =
@@ -181,6 +202,21 @@ const studentsSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(getAllStudents.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isSuccess = false;
+      })
+      .addCase(getSubjectAnalysis.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSubjectAnalysis.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.analysis = action.payload;
+        state.isSuccess = true;
+      })
+      .addCase(getSubjectAnalysis.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

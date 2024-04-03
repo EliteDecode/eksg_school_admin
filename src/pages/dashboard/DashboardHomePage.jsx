@@ -24,6 +24,7 @@ import {
   getAllStudents,
   getAllStudentsSheets,
   getAllSubjects,
+  getSubjectAnalysis,
 } from "@/features/students/studentSlice";
 import { getAllStudentsFromLocalDB } from "@/lib/db";
 
@@ -47,7 +48,7 @@ const DashboardHomePage = () => {
       description: students?.data?.JSS3?.total,
       image: studentsImg,
       buttonText: "View Students",
-      link: "students",
+      link: "/dashboard/students",
       cat: "2",
     },
     // {
@@ -63,7 +64,7 @@ const DashboardHomePage = () => {
       description: "A guide to software usage",
       image: studentsImg,
       buttonText: "View Manual",
-      link: "",
+      link: "../src/assets/doc.pdf",
       cat: "2",
     },
   ];
@@ -82,11 +83,10 @@ const DashboardHomePage = () => {
       dispatch(getAllStudents());
       dispatch(getAllSubjects());
       dispatch(getAllStudentsSheets(user?.school?.id));
+      dispatch(getSubjectAnalysis(user?.school?.id));
     }
     fetchLocal();
   }, []);
-
-  console.log(navigator.onLine);
 
   return (
     <Box className="sm:p-5 p-3 relative">
@@ -138,13 +138,13 @@ const DashboardHomePage = () => {
                       </Box>
 
                       {user?.exam_type_id == item.cat ? (
-                        <Link to="/dashboard/students">
+                        <a href={item.link}>
                           <CardFooter>
                             <Button size="sm" variant="secondary">
                               {item.buttonText}
                             </Button>
                           </CardFooter>
-                        </Link>
+                        </a>
                       ) : (
                         <CardFooter>
                           <Button disabled={true} size="sm" variant="secondary">

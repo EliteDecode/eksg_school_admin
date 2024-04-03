@@ -109,6 +109,25 @@ const deleteSingleStudents = async (token, studentId) => {
   return response.data;
 };
 
+const getSubjectAnalysis = async (token, schoolId) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(
+    `${API_URL}/subjects/school-analysis/${schoolId}`,
+    config
+  );
+
+  if (response.data) {
+    localStorage.setItem("school_analysis", JSON.stringify(response.data));
+  }
+
+  return response.data;
+};
+
 const authService = {
   getAllStudents,
   getAllSubjects,
@@ -117,6 +136,7 @@ const authService = {
   updateSingleStudents,
   deleteSingleStudents,
   getAllStudentsSheet,
+  getSubjectAnalysis,
 };
 
 export default authService;

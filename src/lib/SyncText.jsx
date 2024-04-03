@@ -6,7 +6,7 @@ import { ClipLoader, SyncLoader } from "react-spinners";
 import { useSyncGlobalContext } from "./Context";
 import { useNavigate } from "react-router-dom";
 
-const SyncText = ({ text }) => {
+const SyncText = ({ text, fetchLocal }) => {
   const { setSyncingText, syncingText } = useSyncGlobalContext();
   const navigate = useNavigate();
   return (
@@ -21,6 +21,7 @@ const SyncText = ({ text }) => {
       <Close
         onClick={() => {
           setSyncingText("");
+          fetchLocal();
           if (syncingText.includes("Upload")) {
             navigate("/dashboard");
           }

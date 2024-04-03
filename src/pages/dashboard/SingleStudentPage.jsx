@@ -104,13 +104,7 @@ const SingleStudentPage = () => {
           ? singleStudent?.othername
           : localStudent?.othername,
     },
-    {
-      title: "Student Code",
-      value:
-        navigator.onLine && location?.state?.synced === true
-          ? singleStudent?.student_code
-          : "Not assigned yet",
-    },
+
     {
       title: "Student Access Pin",
       value:
@@ -199,18 +193,20 @@ const SingleStudentPage = () => {
     }
   };
 
-  console.log(localStudent);
-
   return (
     <Box className="p-4">
       {isLoading ? (
         <Loader />
+      ) : !isLoading &&
+        navigator.onLine === false &&
+        location?.state?.synced === true ? (
+        <Error />
       ) : (
         <>
           <Box
             className={`w-full mt-5 bg-white sm:px-5 sm:py-5 p-3 rounded-md mb-5`}>
             <Box className="flex flex-wrap justify-between space-y-4 ">
-              <Box className="bg-white my-3 rounded-md p-1.5 shadow-md w-[15%]">
+              <Box className="bg-white my-3 rounded-md p-1.5 shadow-md sm:w-[15%] w-[50%]">
                 {location?.state?.synced === false && localStudent ? (
                   <img
                     src={URL.createObjectURL(localStudent?.passportLocal)}
@@ -261,23 +257,6 @@ const SingleStudentPage = () => {
             </Box>
           </Box>
 
-          <Box role="presentation" onClick={handleClick}>
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link
-                to="/dashboard/schools"
-                className="hover:underline"
-                style={{ fontSize: "14px" }}>
-                All Schools
-              </Link>
-
-              <Link
-                className="hover:underline"
-                aria-current="page"
-                style={{ fontSize: "14px" }}>
-                {user?.school?.school_name}
-              </Link>
-            </Breadcrumbs>
-          </Box>
           <Box className="mt-5">
             <Grid container spacing={4}>
               <Grid item xs={12} sm={12} md={6}>
@@ -294,12 +273,25 @@ const SingleStudentPage = () => {
                           <Typography>{item.value}</Typography>
                         </Box>
                       ))}
+                      {singleStudent?.student_code != null && (
+                        <Box className="flex  items-center justify-between space-x-2">
+                          <Typography className="font-bold text-[14px] text-[#000]">
+                            Student Exam Number
+                          </Typography>
+                          <Typography>
+                            {navigator.onLine &&
+                            location?.state?.synced === true
+                              ? singleStudent?.student_code
+                              : "Not assigned yet"}
+                          </Typography>
+                        </Box>
+                      )}
                     </Box>
                   </Box>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={12} md={6}>
-                <Box className="bg-white rounded-md p-5 ">
+                <Box className="bg-white rounded-md p-5 overflow-x-scroll">
                   <Box>
                     <Box className="space-y-4">
                       <table className="min-w-full divide-y divide-gray-200">

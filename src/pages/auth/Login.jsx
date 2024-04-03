@@ -3,6 +3,7 @@ import { Box, Grid } from "@mui/material";
 import { Typography } from "antd";
 import LoginForm from "@/components/Forms/LoginForm";
 import loginBg from "../../assets/images/bg.jpg";
+import logo from "../../assets/images/eklogo.png";
 
 const Login = () => {
   return (
@@ -10,9 +11,12 @@ const Login = () => {
       <Grid container>
         <Grid item xs={12} sm={12} md={6}>
           <Box className="text-center p-5 rounded-md bg-white sm:w-[100%] w-[100%] m-auto">
-            <Typography className="sm:text-[30px] text-[20px] capitalize font-bold">
-              Ekiti State School admin portal
-            </Typography>
+            <Box className="flex space-x-4 items-center">
+              <img src={logo} alt="" className="w-[15%]" />
+              <Typography className="sm:text-[30px] text-[17px] capitalize font-bold">
+                Ekiti State School admin portal
+              </Typography>
+            </Box>
           </Box>
 
           <Box className="h-screen mt-24">

@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-import { registerStudentSchema } from "@/lib/schemas";
+import { registerStudentSchema, updateEditStudentSchema } from "@/lib/schemas";
 import { addStudentToLocalDB, updateStudentInLocalDB } from "@/lib/db";
 import axios from "axios";
 import {
@@ -41,7 +41,7 @@ const EditStudentForm = ({ localStudent }) => {
     message,
     subjects: subjectApi,
   } = useSelector((state) => state.students);
-  const { user } = useSelector((state) => state.schoolAuth);
+  const { user, schoolStatus } = useSelector((state) => state.schoolAuth);
   const { lgaSchools } = useSelector((state) => state.schoolsLga);
   const [state, setState] = useState();
   const [profile, setProfile] = useState();
@@ -51,6 +51,38 @@ const EditStudentForm = ({ localStudent }) => {
   const { setSyncingText, isOnline } = useSyncGlobalContext();
   const [placementLga, setPlacementLGA] = useState();
   let subjects = [];
+
+  const [backgroundDetected, setBackgroundDetected] = useState(false);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        const pixelData = ctx.getImageData(0, 0, 1, 1).data;
+        const [red, green, blue] = pixelData;
+
+        // Check if the background color is red
+        if (red > 200 && green < 100 && blue < 100) {
+          setBackgroundDetected(true);
+          formik.setFieldValue("passportLocal", event.target.files[0]);
+        } else {
+          setBackgroundDetected(false);
+          formik.setFieldValue("passportLocal", "");
+        }
+      };
+      img.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+  };
 
   if (user?.exam_type_id == 1) {
     subjectApi?.[0].subjects?.map((item) => {
@@ -86,13 +118,13 @@ const EditStudentForm = ({ localStudent }) => {
           subject_id: subject.subject_id,
           ca1_score: subject.ca1_score,
           ca2_score: subject.ca2_score,
-          id: studentId,
+          id: subject.id,
         }))
       : location.state.student.scores?.map((subject) => ({
           subject_id: subject.subject_id,
           ca1_score: subject.ca1_score,
           ca2_score: subject.ca2_score,
-          id: studentId,
+          id: subject.id,
         }))
   );
 
@@ -135,8 +167,6 @@ const EditStudentForm = ({ localStudent }) => {
       dispatch(reset());
     }
   }, [isLoading, isError, isLoading, dispatch, message]);
-
-  console.log(localStudent);
 
   const formik = useFormik({
     initialValues: {
@@ -187,13 +217,13 @@ const EditStudentForm = ({ localStudent }) => {
           ? singleStudent?.scores
           : localStudent?.ca_scores || [],
     },
-
+    validationSchema: updateEditStudentSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
       if (navigator.onLine) {
         setLoading(true);
-        console.log(values);
-        if (values.passportLocal.includes("http")) {
+
+        if (!values.passportLocal.lastModified) {
           dispatch(
             updateSingleStudent({
               ...values,
@@ -232,7 +262,6 @@ const EditStudentForm = ({ localStudent }) => {
         });
 
         const editLocal = updateStudentInLocalDB(studentId, values);
-        console.log(studentId);
 
         if (editLocal) {
           toast.info("Student updated Successfully", {
@@ -246,7 +275,6 @@ const EditStudentForm = ({ localStudent }) => {
     },
   });
 
-  console.log(formik.errors);
   return (
     <Box className="">
       <Box>
@@ -269,6 +297,16 @@ const EditStudentForm = ({ localStudent }) => {
               alt=""
               className="h-[120px] w-[110px] mt-1 rounded-md"
             />
+          )}
+
+          {backgroundDetected ? (
+            <p className="text-[12px]" style={{ color: "green" }}>
+              Background is red - Accepted
+            </p>
+          ) : (
+            <p className="text-[12px]" style={{ color: "red" }}>
+              Background color of passport MUST be red
+            </p>
           )}
 
           <Grid container spacing={4}>
@@ -475,10 +513,11 @@ const EditStudentForm = ({ localStudent }) => {
                       name="passportLocal"
                       type="file"
                       onChange={(event) => {
-                        formik.setFieldValue(
-                          "passportLocal",
-                          event.currentTarget.files[0]
-                        );
+                        // formik.setFieldValue(
+                        //   "passportLocal",
+                        //   event.currentTarget.files[0]
+                        // );
+                        handleImageUpload(event);
                         // Display the chosen picture beneath the form
                         setProfile(
                           URL.createObjectURL(event.currentTarget.files[0])
@@ -594,7 +633,7 @@ const EditStudentForm = ({ localStudent }) => {
               </Box>
             </Grid>
             <Grid item xs={12} sm={12} md={6}>
-              <Box className="">
+              <Box className="overflow-x-scroll">
                 <Typography variant="subtitle1" gutterBottom>
                   Test Scores
                 </Typography>
@@ -663,19 +702,14 @@ const EditStudentForm = ({ localStudent }) => {
                           <Input
                             placeholder="Enter CA1 score"
                             name={`ca1_score_${index}`}
-                            type="number"
-                            min="30"
-                            max="100"
                             value={score.ca1_score}
                             onChange={(e) => {
+                              const inputValue = parseInt(e.target.value) || 0;
                               const newScores = [...subjectScores];
-                              newScores[index].ca1_score = Math.min(
-                                100,
-                                Math.max(30, parseInt(e.target.value) || 0)
-                              );
+                              newScores[index].ca1_score = inputValue;
                               setSubjectScores(newScores);
                             }}
-                            className="text-[12px] w-[150px]"
+                            className="text-[12px] sm:w-[150px] w-[100%]"
                           />
                         </Box>
                         <Box>
@@ -687,19 +721,14 @@ const EditStudentForm = ({ localStudent }) => {
                           <Input
                             placeholder="Enter CA2 score"
                             name={`ca2_score_${index}`}
-                            type="number"
-                            min="30"
-                            max="100"
                             value={score.ca2_score}
                             onChange={(e) => {
+                              const inputValue = parseInt(e.target.value) || 0;
                               const newScores = [...subjectScores];
-                              newScores[index].ca2_score = Math.min(
-                                100,
-                                Math.max(30, parseInt(e.target.value) || 0)
-                              );
+                              newScores[index].ca2_score = inputValue;
                               setSubjectScores(newScores);
                             }}
-                            className="text-[12px] w-[150px]"
+                            className="text-[12px] sm:w-[150px] w-[100%]"
                           />
                         </Box>
                       </Box>
@@ -710,12 +739,21 @@ const EditStudentForm = ({ localStudent }) => {
             </Grid>
           </Grid>
           <Box className="flex justify-end space-x-2 mt-10">
-            <Button
-              type=""
-              disabled={loading || isLoading}
-              onClick={formik.handleSubmit}>
-              {loading || isLoading ? "Please wait..." : " Edit Student"}
-            </Button>
+            {schoolStatus?.is_registration_active === false ? (
+              <Box className="flex justify-end p-5 mt-10 bg-red-800 rounded-md ">
+                <Typography className="text-white">
+                  <span className="text-white-800">(*)</span> Registeration is
+                  currenly closed
+                </Typography>
+              </Box>
+            ) : (
+              <Button
+                type=""
+                disabled={loading || isLoading}
+                onClick={formik.handleSubmit}>
+                {loading || isLoading ? "Please wait..." : " Edit Student"}
+              </Button>
+            )}
           </Box>
         </form>
       </Box>

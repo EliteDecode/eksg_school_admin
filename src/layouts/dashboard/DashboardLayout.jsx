@@ -57,11 +57,6 @@ const DashboardLayout = () => {
   );
   const [dbStudent, setDBStudents] = useState();
 
-  window.removeEventListener("online", syncDataWithDb);
-  window.removeEventListener("offline", () =>
-    setSyncingText("Offline mode, no network currently detected")
-  );
-
   const fetchLocal = async () => {
     const local = await getAllStudentsFromLocalDB();
 
@@ -69,17 +64,6 @@ const DashboardLayout = () => {
       setDBStudents(local);
     }
   };
-
-  useEffect(() => {
-    if (isError && navigator.onLine === true && message.includes("Network")) {
-      setSyncingText("Offline mode, no network currently detected");
-      setIsOnline(false);
-    }
-
-    if (isSuccess) {
-      setIsOnline(true);
-    }
-  }, [isError, isSuccess, navigator]);
 
   const dispatch = useDispatch();
 
@@ -136,7 +120,9 @@ const DashboardLayout = () => {
             dbStudent={dbStudent}
           />
           <Box className="relative ">
-            {syncingText && <SyncText text={syncingText} />}
+            {syncingText && (
+              <SyncText text={syncingText} fetchLocal={fetchLocal} />
+            )}
             <Outlet />
           </Box>
         </Box>
