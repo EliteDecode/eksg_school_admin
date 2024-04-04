@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://eksgexams.purplebeetech.com/api";
+const API_URL = "https://api.eksexams.com/api";
 
 const getAllStudents = async (token) => {
   const config = {

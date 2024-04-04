@@ -204,10 +204,10 @@ const RegisterStudentForm = () => {
         setLoading(true);
         const formdata = new FormData();
         formdata.append("file", values.passportLocal);
-        formdata.append("upload_preset", "kosdm4mr");
+        formdata.append("upload_preset", "qrvk52is");
 
         const response = await axios.post(
-          "https://api.cloudinary.com/v1_1/dir6oqkix/image/upload",
+          "https://api.cloudinary.com/v1_1/dxtucu8tl/image/upload",
           formdata
         );
 

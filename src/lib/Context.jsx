@@ -46,7 +46,7 @@ const SyncProvider = ({ children }) => {
 
             if (response && response.data && response.data.url) {
               const registerStudentResponse = await axios.post(
-                "https://eksgexams.purplebeetech.com/api/students",
+                "https://api.eksexams.com/api/students",
                 {
                   ...student,
                   passport: response.data.url,
