@@ -119,12 +119,14 @@ const EditStudentForm = ({ localStudent }) => {
           ca1_score: subject.ca1_score,
           ca2_score: subject.ca2_score,
           id: subject.id,
+          compulsory: subject.compulsory,
         }))
       : location.state.student.scores?.map((subject) => ({
           subject_id: subject.subject_id,
           ca1_score: subject.ca1_score,
           ca2_score: subject.ca2_score,
           id: subject.id,
+          compulsory: subject.compulsory,
         }))
   );
 
@@ -137,6 +139,9 @@ const EditStudentForm = ({ localStudent }) => {
   };
 
   useEffect(() => {
+    const compulsorySubjects = subjectScores?.filter(
+      (subject) => subject.compulsory
+    );
     const filteredSubjects = subjectScores?.filter(
       (subject) =>
         subject.ca1_score !== "" &&
@@ -146,7 +151,21 @@ const EditStudentForm = ({ localStudent }) => {
         subject.ca2_score > 0 &&
         subject.ca2_score < 21
     );
-    formik.setFieldValue("ca_scores", filteredSubjects);
+
+    console.log(filteredSubjects);
+
+    const includedCompulsorySubjects = compulsorySubjects.every((compSubject) =>
+      filteredSubjects.some(
+        (subject) => subject.subject_id === compSubject.subject_id
+      )
+    );
+
+    if (!includedCompulsorySubjects) {
+      formik.setFieldValue("ca_scores", []);
+      console.log("not complete");
+    } else {
+      formik.setFieldValue("ca_scores", filteredSubjects);
+    }
   }, [subjectScores]);
 
   useEffect(() => {
@@ -230,14 +249,14 @@ const EditStudentForm = ({ localStudent }) => {
         setLoading(true);
 
         if (!values.passportLocal.lastModified) {
-          dispatch(
-            updateSingleStudent({
-              ...values,
-              passport: values.passportLocal,
-              exam_type_id: user?.exam_type_id,
-              studentId: studentId,
-            })
-          );
+          // dispatch(
+          //   updateSingleStudent({
+          //     ...values,
+          //     passport: values.passportLocal,
+          //     exam_type_id: user?.exam_type_id,
+          //     studentId: studentId,
+          //   })
+          // );
         } else {
           const formdata = new FormData();
           formdata.append("file", values.passportLocal);
@@ -675,7 +694,7 @@ const EditStudentForm = ({ localStudent }) => {
                           ) : (
                             <Select
                               name="status"
-                              value={score.subject_id}
+                              value={score.subject_id.toString()}
                               onValueChange={(value) =>
                                 handleSelectChange(index, value)
                               }

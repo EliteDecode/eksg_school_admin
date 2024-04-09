@@ -124,6 +124,7 @@ const RegisterStudentForm = () => {
   const [subjectScores, setSubjectScores] = useState(
     subjects.map((subject) => ({
       subject_id: subject.id,
+      compulsory: subject.compulsory,
       ca1_score: "",
       ca2_score: "",
     }))
@@ -145,6 +146,9 @@ const RegisterStudentForm = () => {
   };
 
   useEffect(() => {
+    const compulsorySubjects = subjectScores?.filter(
+      (subject) => subject.compulsory
+    );
     const filteredSubjects = subjectScores?.filter(
       (subject) =>
         subject.ca1_score !== "" &&
@@ -154,7 +158,18 @@ const RegisterStudentForm = () => {
         subject.ca2_score > 0 &&
         subject.ca2_score < 21
     );
-    formik.setFieldValue("ca_scores", filteredSubjects);
+
+    const includedCompulsorySubjects = compulsorySubjects.every((compSubject) =>
+      filteredSubjects.some(
+        (subject) => subject.subject_id === compSubject.subject_id
+      )
+    );
+
+    if (!includedCompulsorySubjects) {
+      formik.setFieldValue("ca_scores", []);
+    } else {
+      formik.setFieldValue("ca_scores", filteredSubjects);
+    }
   }, [subjectScores]);
 
   useEffect(() => {
