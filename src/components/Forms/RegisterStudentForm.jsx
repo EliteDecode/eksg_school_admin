@@ -146,26 +146,23 @@ const RegisterStudentForm = () => {
   };
 
   useEffect(() => {
-    const compulsorySubjects = subjectScores?.filter(
-      (subject) => subject.compulsory
-    );
     const filteredSubjects = subjectScores?.filter(
       (subject) =>
         subject.ca1_score !== "" &&
         subject.ca2_score !== "" &&
-        subject.ca1_score > 0 &&
-        subject.ca1_score < 21 &&
-        subject.ca2_score > 0 &&
-        subject.ca2_score < 21
+        subject.ca1_score !== 0 &&
+        subject.ca2_score !== 0
     );
 
-    const includedCompulsorySubjects = compulsorySubjects.every((compSubject) =>
-      filteredSubjects.some(
-        (subject) => subject.subject_id === compSubject.subject_id
-      )
+    const checkFiltered = filteredSubjects?.find(
+      (subject) =>
+        subject.ca1_score < 1 ||
+        subject.ca1_score > 20 ||
+        subject.ca2_score < 1 ||
+        subject.ca2_score > 20
     );
 
-    if (!includedCompulsorySubjects) {
+    if (checkFiltered) {
       formik.setFieldValue("ca_scores", []);
     } else {
       formik.setFieldValue("ca_scores", filteredSubjects);
@@ -257,6 +254,8 @@ const RegisterStudentForm = () => {
       }
     },
   });
+
+  console.log(formik.values);
 
   return (
     <Box className="">

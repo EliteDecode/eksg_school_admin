@@ -139,30 +139,24 @@ const EditStudentForm = ({ localStudent }) => {
   };
 
   useEffect(() => {
-    const compulsorySubjects = subjectScores?.filter(
-      (subject) => subject.compulsory
-    );
     const filteredSubjects = subjectScores?.filter(
       (subject) =>
         subject.ca1_score !== "" &&
         subject.ca2_score !== "" &&
-        subject.ca1_score > 0 &&
-        subject.ca1_score < 21 &&
-        subject.ca2_score > 0 &&
-        subject.ca2_score < 21
+        subject.ca1_score !== 0 &&
+        subject.ca2_score !== 0
     );
 
-    console.log(filteredSubjects);
-
-    const includedCompulsorySubjects = compulsorySubjects.every((compSubject) =>
-      filteredSubjects.some(
-        (subject) => subject.subject_id === compSubject.subject_id
-      )
+    const checkFiltered = filteredSubjects?.find(
+      (subject) =>
+        subject.ca1_score < 1 ||
+        subject.ca1_score > 20 ||
+        subject.ca2_score < 1 ||
+        subject.ca2_score > 20
     );
 
-    if (!includedCompulsorySubjects) {
+    if (checkFiltered) {
       formik.setFieldValue("ca_scores", []);
-      console.log("not complete");
     } else {
       formik.setFieldValue("ca_scores", filteredSubjects);
     }
@@ -249,14 +243,14 @@ const EditStudentForm = ({ localStudent }) => {
         setLoading(true);
 
         if (!values.passportLocal.lastModified) {
-          // dispatch(
-          //   updateSingleStudent({
-          //     ...values,
-          //     passport: values.passportLocal,
-          //     exam_type_id: user?.exam_type_id,
-          //     studentId: studentId,
-          //   })
-          // );
+          dispatch(
+            updateSingleStudent({
+              ...values,
+              passport: values.passportLocal,
+              exam_type_id: user?.exam_type_id,
+              studentId: studentId,
+            })
+          );
         } else {
           const formdata = new FormData();
           formdata.append("file", values.passportLocal);
@@ -704,7 +698,7 @@ const EditStudentForm = ({ localStudent }) => {
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectGroup>
-                                  <SelectLabel>Classes</SelectLabel>
+                                  <SelectLabel>Subjects</SelectLabel>
                                   {subjects.map((subject) => (
                                     <SelectItem
                                       key={subject.id}
