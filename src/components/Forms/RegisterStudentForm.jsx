@@ -153,8 +153,6 @@ const RegisterStudentForm = () => {
         subject.ca2_score !== ""
     );
 
-    console.log(compulsorySubjects);
-
     if (compulsorySubjects.length >= 8) {
       const filteredSubjects = subjectScores?.filter(
         (subject) =>
