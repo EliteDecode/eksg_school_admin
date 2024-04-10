@@ -146,26 +146,39 @@ const RegisterStudentForm = () => {
   };
 
   useEffect(() => {
-    const filteredSubjects = subjectScores?.filter(
+    const compulsorySubjects = subjectScores?.filter(
       (subject) =>
+        subject.compulsory === true &&
         subject.ca1_score !== "" &&
-        subject.ca2_score !== "" &&
-        subject.ca1_score !== 0 &&
-        subject.ca2_score !== 0
+        subject.ca2_score !== ""
     );
 
-    const checkFiltered = filteredSubjects?.find(
-      (subject) =>
-        subject.ca1_score < 1 ||
-        subject.ca1_score > 20 ||
-        subject.ca2_score < 1 ||
-        subject.ca2_score > 20
-    );
+    console.log(compulsorySubjects);
 
-    if (checkFiltered) {
-      formik.setFieldValue("ca_scores", []);
+    if (compulsorySubjects.length >= 8) {
+      const filteredSubjects = subjectScores?.filter(
+        (subject) =>
+          subject.ca1_score !== "" &&
+          subject.ca2_score !== "" &&
+          subject.ca1_score !== 0 &&
+          subject.ca2_score !== 0
+      );
+
+      const checkFiltered = filteredSubjects.find(
+        (subject) =>
+          subject.ca1_score < 1 ||
+          subject.ca1_score > 20 ||
+          subject.ca2_score < 1 ||
+          subject.ca2_score > 20
+      );
+
+      if (checkFiltered) {
+        formik.setFieldValue("ca_scores", []);
+      } else {
+        formik.setFieldValue("ca_scores", filteredSubjects);
+      }
     } else {
-      formik.setFieldValue("ca_scores", filteredSubjects);
+      formik.setFieldValue("ca_scores", []);
     }
   }, [subjectScores]);
 

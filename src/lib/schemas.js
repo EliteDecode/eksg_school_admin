@@ -49,7 +49,7 @@ export const registerStudentSchema = yup.object({
       school?.user?.exam_type_id == 1 ? 5 : 9,
       `Please select at least ${
         school?.user?.exam_type_id == 1 ? "5" : "9"
-      } subjects and all selected subjects with min value of 0 and max value of 20.`
+      } subjects with 8 compulsory and all selected subjects with min value of 0 and max value of 20.`
     )
     .required("Test scores are required"),
 });
