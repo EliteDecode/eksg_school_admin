@@ -126,6 +126,12 @@ const LoginForm = () => {
                 </span>
               ) : null}
             </Box>
+            <Typography>
+              Are you having issues with your login? Please send us a message{" "}
+              <a href="https://wa.link/9ax3j4">
+                Click Here to send a complaint
+              </a>
+            </Typography>
 
             <Button
               className="w-full"
