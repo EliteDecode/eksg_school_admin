@@ -193,6 +193,11 @@ const SingleStudentPage = () => {
     }
   };
 
+  const scores = singleStudent?.scores?.filter(
+    (item) => item.ca1_score !== 0 && item.ca2_score !== 0
+  );
+
+  console.log(scores);
   return (
     <Box className="p-4">
       {isLoading ? (
@@ -316,7 +321,7 @@ const SingleStudentPage = () => {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                           {singleStudent
-                            ? singleStudent.scores?.map((item, index) => {
+                            ? scores?.map((item, index) => {
                                 const sub = subjectsApi.find(
                                   (subject) =>
                                     subject.subject_id == item.subject_id

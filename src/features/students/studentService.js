@@ -73,8 +73,6 @@ const registerStudent = async (token, studentData) => {
   };
 
   const response = await axios.post(`${API_URL}/students`, studentData, config);
-
-  console.log(response.data);
   return response.data;
 };
 
