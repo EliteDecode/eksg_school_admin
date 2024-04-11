@@ -148,11 +148,7 @@ const EditStudentForm = ({ localStudent }) => {
     );
 
     const checkFiltered = filteredSubjects?.find(
-      (subject) =>
-        subject.ca1_score < 1 ||
-        subject.ca1_score > 20 ||
-        subject.ca2_score < 1 ||
-        subject.ca2_score > 20
+      (subject) => subject.ca1_score > 20 || subject.ca2_score > 20
     );
 
     if (checkFiltered) {
