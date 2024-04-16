@@ -197,7 +197,6 @@ const SingleStudentPage = () => {
     (item) => item.ca1_score !== 0 && item.ca2_score !== 0
   );
 
-  console.log(scores);
   return (
     <Box className="p-4">
       {isLoading ? (

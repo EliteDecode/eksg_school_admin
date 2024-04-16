@@ -718,7 +718,7 @@ const RegisterStudentForm = () => {
               </Box>
             </Grid>
           </Grid>
-          {localStore?.length + totalStudents < schoolStatus?.pin_limit &&
+          {schoolStatus?.pin_limit > 0 &&
           schoolStatus?.is_registration_active ? (
             <Box className="flex justify-end space-x-2 mt-10">
               <Button
@@ -736,19 +736,16 @@ const RegisterStudentForm = () => {
               </Typography>
             </Box>
           ) : (
-            <Box className="flex justify-end p-5 mt-10 bg-gray-500 rounded-md ">
-              {schoolStatus?.pin_limit > 1 ? (
-                <Typography className="text-white">
-                  <span className="text-red-800">(*)</span> You have reached
-                  your total quota of {schoolStatus?.pin_limit} registrations
-                </Typography>
-              ) : (
-                <Typography className="text-white">
-                  <span className="text-red-800">(*)</span> You have no
-                  allocated quota of registrations
-                </Typography>
+            <>
+              {schoolStatus?.pin_limit < 1 && (
+                <Box className="flex justify-end p-5 mt-10 bg-gray-500 rounded-md ">
+                  <Typography className="text-white">
+                    <span className="text-red-800">(*)</span> You have no
+                    allocated quota of registrations
+                  </Typography>
+                </Box>
               )}
-            </Box>
+            </>
           )}
         </form>
       </Box>
