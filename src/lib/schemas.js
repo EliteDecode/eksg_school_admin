@@ -28,19 +28,12 @@ export const registerStudentSchema = yup.object({
     .matches(/^[a-zA-Z0-9\s]*$/, "Invalid characters")
     .max(50, "Other names must be at most 50 characters"),
   date_of_birth: yup.string().required("Date of birth is required"),
-  lga: yup
-    .string()
-    .trim()
-    .matches(/^[a-zA-Z0-9\s]*$/, "Invalid characters")
-    .max(50, "LGA must be at most 50 characters")
-    .required("LGA is required"),
+  lga: yup.string().required("LGA is required"),
   placed_school_lga: yup.string().required("Placement school LGA is required"),
   placed_school_id: yup.number().required("Placement school is required"),
   gender: yup.string().trim().required("Gender is required"),
   state_of_origin: yup
     .string()
-    .trim()
-    .matches(/^[a-zA-Z0-9\s]*$/, "Invalid characters")
     .max(50, "State of origin must be at most 50 characters")
     .required("State of origin is required"),
   ca_scores: yup
