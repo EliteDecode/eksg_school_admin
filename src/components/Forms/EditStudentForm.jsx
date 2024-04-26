@@ -70,7 +70,7 @@ const EditStudentForm = ({ localStudent }) => {
         const [red, green, blue] = pixelData;
 
         // Check if the background color is red
-        if (red > 200 && green < 100 && blue < 100) {
+        if (red > 0 && green < 100 && blue < 100) {
           setBackgroundDetected(true);
           formik.setFieldValue("passportLocal", event.target.files[0]);
         } else {
