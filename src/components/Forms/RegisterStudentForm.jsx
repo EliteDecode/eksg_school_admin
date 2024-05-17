@@ -64,33 +64,35 @@ const RegisterStudentForm = () => {
   const [backgroundDetected, setBackgroundDetected] = useState(false);
 
   const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
+    // const file = event.target.files[0];
+    // const reader = new FileReader();
 
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        const pixelData = ctx.getImageData(0, 0, 1, 1).data;
-        const [red, green, blue] = pixelData;
+    // reader.onload = (e) => {
+    //   const img = new Image();
+    //   img.onload = () => {
+    //     const canvas = document.createElement("canvas");
+    //     const ctx = canvas.getContext("2d");
+    //     canvas.width = img.width;
+    //     canvas.height = img.height;
+    //     ctx.drawImage(img, 0, 0);
+    //     const pixelData = ctx.getImageData(0, 0, 1, 1).data;
+    //     const [red, green, blue] = pixelData;
 
-        // Check if the background color is red
-        if (red > 0 && green < 100 && blue < 100) {
-          setBackgroundDetected(true);
-          formik.setFieldValue("passportLocal", event.target.files[0]);
-        } else {
-          setBackgroundDetected(false);
-          formik.setFieldValue("passportLocal", "");
-        }
-      };
-      img.src = e.target.result;
-    };
+    //     // Check if the background color is red
+    //     if (red > 0 && green < 100 && blue < 100) {
+    //       setBackgroundDetected(true);
+    //     } else {
+    //       setBackgroundDetected(false);
+    //       formik.setFieldValue("passportLocal", "");
+    //     }
+    //     formik.setFieldValue("passportLocal", event.target.files[0]);
+    //   };
+    //   img.src = e.target.result;
+    // };
 
-    reader.readAsDataURL(file);
+    // reader.readAsDataURL(file);
+
+    formik.setFieldValue("passportLocal", event.target.files[0]);
   };
 
   if (user?.exam_type_id == 1) {
