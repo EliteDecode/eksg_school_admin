@@ -32,7 +32,7 @@ const DashboardHomePage = () => {
   const { students, isError, isSuccess, isLoading, message } = useSelector(
     (state) => state.students
   );
-  const { user } = useSelector((state) => state.schoolAuth);
+  const { user, schoolStatus } = useSelector((state) => state.schoolAuth);
 
   const HomeCardContentsStudents = [
     // {
@@ -66,6 +66,15 @@ const DashboardHomePage = () => {
       buttonText: "View Manual",
       link: "../src/assets/doc.pdf",
       cat: "2",
+    },
+
+    {
+      title: "Total Quota Assigned ",
+      description: schoolStatus?.pin_limit + students?.data?.JSS3?.total,
+      image: studentsImg,
+      buttonText: "Overview",
+      link: "../src/assets/doc.pdf",
+      cat: "1",
     },
   ];
 
