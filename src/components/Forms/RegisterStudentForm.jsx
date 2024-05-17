@@ -229,21 +229,25 @@ const RegisterStudentForm = () => {
         formdata.append("file", values.passportLocal);
         formdata.append("upload_preset", "qrvk52is");
 
-        const response = await axios.post(
-          "https://api.cloudinary.com/v1_1/dxtucu8tl/image/upload",
-          formdata
-        );
-
-        if (response) {
-          dispatch(
-            registerStudent({
-              ...values,
-              passport: response?.data?.url,
-              exam_type_id: user?.exam_type_id,
-            })
+        try {
+          const response = await axios.post(
+            "https://api.cloudinary.com/v1_1/dxtucu8tl/image/upload",
+            formdata
           );
 
-          setLoading(false);
+          if (response) {
+            dispatch(
+              registerStudent({
+                ...values,
+                passport: response?.data?.url,
+                exam_type_id: user?.exam_type_id,
+              })
+            );
+
+            setLoading(false);
+          }
+        } catch (error) {
+          console.log(error);
         }
       } else {
         setLoading(true);

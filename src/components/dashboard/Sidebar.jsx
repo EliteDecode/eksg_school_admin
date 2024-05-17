@@ -115,7 +115,7 @@ const Sidebar = ({ setIsSidebar, isSidebar }) => {
           })}
         </Box>
 
-        <Box className=" absolute bottom-0 w-full space-x-4 flex items-center p-4 ">
+        <Box className=" sm:absolute relative bottom-0 w-full space-x-4 flex items-center p-4 ">
           <Button
             variant="secondary"
             className="w-full space-x-2"
