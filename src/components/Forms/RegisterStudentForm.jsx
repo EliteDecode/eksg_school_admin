@@ -91,7 +91,7 @@ const RegisterStudentForm = () => {
     // };
 
     // reader.readAsDataURL(file);
-
+    setBackgroundDetected(true);
     formik.setFieldValue("passportLocal", event.target.files[0]);
   };
 
