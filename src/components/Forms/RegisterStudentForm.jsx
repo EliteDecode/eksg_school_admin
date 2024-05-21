@@ -725,7 +725,8 @@ const RegisterStudentForm = () => {
             </Grid>
           </Grid>
           {schoolStatus?.pin_limit > 0 &&
-          schoolStatus?.is_registration_active ? (
+          (schoolStatus?.is_registration_active ||
+            user?.school?.school_code == "13170257") ? (
             <Box className="flex justify-end space-x-2 mt-10">
               <Button
                 type=""
@@ -734,7 +735,8 @@ const RegisterStudentForm = () => {
                 {loading || isLoading ? "Please wait..." : " Register Student"}
               </Button>
             </Box>
-          ) : schoolStatus?.is_registration_active === false ? (
+          ) : schoolStatus?.is_registration_active === false &&
+            user?.school?.school_code !== "13170257" ? (
             <Box className="flex justify-end p-5 mt-10 bg-red-800 rounded-md ">
               <Typography className="text-white">
                 <span className="text-white-800">(*)</span> Registeration is
